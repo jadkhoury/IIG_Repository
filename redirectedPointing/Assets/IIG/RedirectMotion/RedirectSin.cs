@@ -7,7 +7,7 @@ using System.Collections;
 
 //[ExecuteInEditMode]
 public class RedirectSin : MonoBehaviour {
-
+//lelele
 
 	public bool isOn = false;
 
