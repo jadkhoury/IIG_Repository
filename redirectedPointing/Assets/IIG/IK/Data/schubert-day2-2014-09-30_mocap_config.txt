@@ -1,0 +1,10 @@
+./Assets/IIG/IK/Data/
+0
+Tracker0@localhost
+marker_config.txt
+marker_cs_config.txt
+schubert-day2-2014-09-30.mclb
+./Brian/lod_1.xml
+./Brian/brianLOD1024_01.jpg
+./Brian/brianNew
+schubert-day2-2014-09-30.sclb

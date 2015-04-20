@@ -1,0 +1,44 @@
+37
+; MarkerID MarkerName 
+0 LHAR	; Left hand right
+1 LHAL	; Left hand left
+2 LWRI	; Left wrist
+3 LELB	; Left elbow 		3 LFOR Left Forearm
+4 LARM	; Left Upper Arm
+5 LSB1	; Left Shoulder Back 1
+6 LSHO	; Left shoulder		6 LSB2 Left Shoulder Back 2
+
+7 RHAL ; Right hand left
+8 RHAR ; Right hand right
+9 RWRI	; Right wrist
+10 RELB	; Right elbow 		10 RFOR Right Forearm
+11 RARM	; Right Upper Arm
+12 RSB1	; Right Shoulder Back 1
+13 RSHO	; Right shoulder 	13 RSB2 Right Shoulder Back 2
+
+14 LFTR	; Left foot right
+15 LFTL	; Left foot left
+16 LANK	; Left lateral Ankle
+17 LFAN	; Left Frontal Ankle
+18 LKNE	; Left knee			17 LLEG Left Leg
+19 LTGH	; Left Thigh
+20 LASI	; Left asis
+
+21 RFTL	; Right foot left
+22 RFTR	; Right foot right
+23 RANK	; Right lateral Ankle
+24 RFAN	; Right Frontal Ankle
+25 RKNE	; Right knee 		23 RLEG Right Leg
+26 RTGH	; Right Thigh
+27 RASI	; Right asis
+
+28 RCHE	; Right chest		26 STOM "Stomach"
+29 LCHE	; Chest left
+30 C7	; Neck - C7
+31 SACR	; Sacrum 			29 OTHR Middle of the back
+32 RSAC	; Right Sacrum
+33 LSAC	; Left Sacrum
+
+34 RFHD	; Right frontal head
+35 LFHD	; Left frontal head
+36 BHD	; Back head

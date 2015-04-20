@@ -1,0 +1,131 @@
+; This is an example configuration file for building
+; coordinate systems attached to rigid bodies. Morover,
+; it allows to attach markers, we call marker groups around specific
+; body parts like knee, shoulder and elbow.
+; A semicolon comments out the rest of the line. So, you can add text
+; for better understanding for future use.
+
+; The first non-comment information in this text has to be the total number
+; of rigid bodies to be tracked. For example, it is 13 for this document
+; (ROOT, CHEST, HEAD, L_WRIST, L_ELBOW, L_SHOULDER, R_WRIST, R_ELBOW, R_SHOULDER,
+;  L_ANKLE, L_KNEE, R_ANKLE, R_KNEE).
+
+; Rigid bodies have predefined names. This document has all of the supported types
+; as listed above.
+; As you see below, ROOT, CHEST, HEAD, L_WRIST, R_WRIST, L_ANKLE, R_ANKLE requires
+; 3 markers to define one marker group. It means that we need n x 3 markers to define n groups.
+; We put more groups to deal with possible occlusions.
+; For ELBOW, SHOULDER and KNEE we need only 1 marker for having a group, so, in total, we have n x 1
+; groups.
+; "ROOT 1" for instance means that 1 x 3 marker names follow.
+
+; For tracking specific body parts (ARMS, LEGS, HEAD, TRUNK), we need specific rigid bodies to be tracked.
+; Below you can see which rigid bodies you need to define in this document to track a limb or body part.
+; LEFT ARM: CHEST + L_WRIST + L_ELBOW + L_SHOULDER
+; RIGHT ARM: CHEST + R_WRIST + R_ELBOW + R_SHOULDER
+; LEFT_LEG: ROOT + L_ANKLE + L_KNEE
+; RIGHT_LEG: ROOT + R_ANKLE + R_KNEE
+; TRUNK: ROOT + CHEST
+; HEAD: CHEST + HEAD
+; The software automatically understands which parts you want to track according to the definitions
+; you do in this configuration file.
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ROOT + CHEST gives us TRUNK
+; CHEST + HEAD gives us HEAD
+ROOT 7
+LASI RASI SACR
+LASI RASI LSAC
+LASI RASI RSAC
+LSAC RSAC LASI
+LSAC RSAC RASI
+RSAC SACR RASI
+LSAC SACR RASI
+
+CHEST 1
+LCHE RCHE C7
+
+
+HEAD 1
+LFHD BHD RFHD
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LEFT ARM: L_WRIST L_ELBOW L_SHOULDER
+; PREREQUISITE: CHEST
+L_WRIST 1
+LWRI LHAL LHAR
+
+L_ELBOW 1
+LELB
+
+L_SHOULDER 1
+LSHO
+
+;L_FORE_ARM 2
+;LWRI LFOR
+L_FORE_ARM 1
+LWRI
+
+L_UPPER_ARM 2
+LELB LARM
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; RIGHT ARM: R_WRIST R_ELBOW R_SHOULDER
+; PREREQUISITE: CHEST
+R_WRIST 1
+RWRI RHAL RHAR
+
+R_ELBOW 1
+RELB
+
+R_SHOULDER 1
+RSHO
+
+;R_FORE_ARM 2
+;RWRI RFOR
+R_FORE_ARM 1
+RWRI
+
+R_UPPER_ARM 2
+RELB RARM
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LEFT LEG: L_ANKLE L_KNEE
+; PREREQUISITE: ROOT
+L_ANKLE 1
+LANK LFTL LFTR
+
+L_KNEE 1
+LKNE
+
+;L_LOWER_LEG 3
+;LANK LFAN LLEG
+;L_LOWER_LEG 2
+;LANK LFAN
+L_LOWER_LEG 1
+LFAN
+
+L_UPPER_LEG 2
+LKNE LTGH
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; RIGHT LEG: R_ANKLE R_KNEE
+; PREREQUISITE: ROOT
+R_ANKLE 1
+RANK RFTL RFTR
+
+R_KNEE 1
+RKNE
+
+;R_LOWER_LEG 3
+;RANK RFAN RLEG
+;R_LOWER_LEG 2
+;RANK RFAN
+R_LOWER_LEG 1
+RFAN
+
+R_UPPER_LEG 2
+RKNE RTGH

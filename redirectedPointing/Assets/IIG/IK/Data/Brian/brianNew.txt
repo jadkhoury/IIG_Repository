@@ -1,0 +1,142 @@
+HumanoidRoot : root	
+center 0.000000 1.000000 0.000000
+sacroiliac : HumanoidRoot	
+center 0.000000 0.974983 -0.028450
+l_hip : HumanoidRoot	
+center 0.090000 0.918368 0.044530
+l_knee : l_hip	
+center 0.09018248956 0.5322823052 0.02895571429
+l_ankle : l_knee	
+center 0.090396 0.080567 0.010734
+l_subtalar : l_ankle	
+center 0.091662 0.046589 0.054458
+l_midtarsal : l_subtalar	
+center 0.101988 0.037444 0.090734
+l_metatarsal : l_midtarsal	
+center 0.109640 0.020022 0.151838
+r_hip : HumanoidRoot	
+center -0.090000 0.918368 0.044530
+r_knee : r_hip	
+center -0.09018248956 0.5322823052 0.02895571429
+r_ankle : r_knee	
+center -0.090396 0.080567 0.010734
+r_subtalar : r_ankle	
+center -0.091662 0.046589 0.054458
+r_midtarsal : r_subtalar	
+center -0.101988 0.037444 0.090734
+r_metatarsal : r_midtarsal	
+center -0.109640 0.020022 0.151838
+vl5 : HumanoidRoot	
+center 0.000000 1.046022 0.000165
+vl3 : HumanoidRoot	
+center 0.000000 1.118048 -0.015142
+vl1 : vl3	
+center 0.000000 1.207242 -0.024595
+vt10 : vl1	
+center 0.000290 1.306117 -0.028333
+vt6 : vt10	
+center 0.000000 1.389401 -0.017342
+vt1 : vt6	
+center 0.000000 1.483805 0.016435
+l_sternoclavicular : vt1	
+center 0.021000 1.486803 0.129490
+l_acromioclavicular : l_sternoclavicular	
+center 0.139128 1.510768 0.060249
+l_shoulder : l_sternoclavicular	
+center 0.179263 1.474929 0.029139
+l_elbow : l_shoulder	
+center 0.2012920336 1.199981432 0.04090105405
+l_wrist : l_elbow	
+center 0.225087 0.902993 0.053606
+l_index0 : l_wrist	
+center 0.222499 0.886803 0.068509
+l_index1 : l_index0	
+center 0.228442 0.817268 0.088853
+l_index2 : l_index1	
+center 0.226040 0.779554 0.086951
+l_index3 : l_index2	
+center 0.224369 0.754003 0.084028
+l_middle0 : l_wrist	
+center 0.225093 0.886804 0.056090
+l_middle1 : l_middle0	
+center 0.231885 0.814548 0.063382
+l_middle2 : l_middle1	
+center 0.231063 0.770187 0.066423
+l_middle3 : l_middle2	
+center 0.229129 0.740548 0.066423
+l_pinky0 : l_wrist	
+center 0.223131 0.886803 0.031599
+l_pinky1 : l_pinky0	
+center 0.222489 0.822282 0.023791
+l_pinky2 : l_pinky1	
+center 0.222489 0.791021 0.025755
+l_pinky3 : l_pinky2	
+center 0.222489 0.771931 0.028840
+l_ring0 : l_wrist	
+center 0.224219 0.886804 0.044173
+l_ring1 : l_ring0	
+center 0.227229 0.814777 0.043723
+l_ring2 : l_ring1	
+center 0.226641 0.778531 0.045831
+l_ring3 : l_ring2	
+center 0.225678 0.750067 0.046673
+l_thumb1 : l_wrist	
+center 0.218385 0.890865 0.084311
+l_thumb2 : l_thumb1	
+center 0.212969 0.853847 0.110646
+l_thumb3 : l_thumb2	
+center 0.208764 0.828048 0.130723
+r_sternoclavicular : vt1	
+center -0.021000 1.486803 0.129490
+r_acromioclavicular : r_sternoclavicular	
+center -0.139128 1.510768 0.060249
+r_shoulder : r_sternoclavicular	
+center -0.179263 1.474929 0.029139
+r_elbow : r_shoulder	
+center -0.2012920336 1.199981432 0.04090105405
+r_wrist : r_elbow	
+center -0.224887 0.902982 0.053606
+r_index0 : r_wrist	
+center -0.222294 0.886793 0.068509
+r_index1 : r_index0	
+center -0.228237 0.817258 0.088853
+r_index2 : r_index1	
+center -0.225816 0.779545 0.086951
+r_index3 : r_index2	
+center -0.224133 0.753995 0.084028
+r_middle0 : r_wrist	
+center -0.224887 0.886793 0.056090
+r_middle1 : r_middle0	
+center -0.231680 0.814537 0.063382
+r_middle2 : r_middle1	
+center -0.230858 0.770176 0.066423
+r_middle3 : r_middle2	
+center -0.228923 0.740537 0.066423
+r_pinky0 : r_wrist	
+center -0.222925 0.886793 0.031599
+r_pinky1 : r_pinky0	
+center -0.222284 0.822271 0.023791
+r_pinky2 : r_pinky1	
+center -0.222284 0.791010 0.025755
+r_pinky3 : r_pinky2	
+center -0.222284 0.771921 0.028840
+r_ring0 : r_wrist	
+center -0.224014 0.886793 0.044173
+r_ring1 : r_ring0	
+center -0.227024 0.814766 0.043723
+r_ring2 : r_ring1	
+center -0.226423 0.778520 0.045831
+r_ring3 : r_ring2	
+center -0.225461 0.750056 0.046673
+r_thumb1 : r_wrist	
+center -0.218372 0.890863 0.084311
+r_thumb2 : r_thumb1	
+center -0.212955 0.853846 0.110646
+r_thumb3 : r_thumb2	
+center -0.208750 0.828047 0.130723
+vc4 : vt1	
+center 0.000100 1.562747 0.054641
+vc2 : vc4	
+center 0.000100 1.599235 0.069209
+skullbase : vc2	
+center 0.000000 1.641212 0.082462

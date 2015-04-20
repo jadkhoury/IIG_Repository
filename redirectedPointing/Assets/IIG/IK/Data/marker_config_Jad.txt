@@ -1,0 +1,13 @@
+11
+; MarkerID MarkerName 
+0 HAN1	; hand 
+1 HAN2	; hand 
+2 HAN3	; hand 
+3 HD1	; head 
+4 HD2	; head
+5 HD3	; head		
+6 HD4	; head
+7 OBJ1	; Object
+8 OBJ2	; Object 	
+9 OBJ3	; Object
+10 OBJ4	; Object
