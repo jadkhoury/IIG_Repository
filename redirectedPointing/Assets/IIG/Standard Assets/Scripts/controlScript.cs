@@ -6,11 +6,11 @@ using System.Collections;
 
 public class controlScript : MonoBehaviour {
 
-	public float actionRange = 0.125;
-	public float targetRadius = 1.5;
+	public float actionRange = 0.125f;
+	public float targetRadius = 1.5f;
 	public float collisionRadius;
-	public float circleRadius = 0.125;
-	public float nbTarget = 12;
+	public float circleRadius = 0.125f;
+	public int nbTargets = 12;
 	public Transform objectToRedirect;
 	public Transform defaultTarget;
 	public bool negativeDistortion;

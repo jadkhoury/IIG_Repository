@@ -11,6 +11,7 @@ public class RedirectSin : MonoBehaviour {
 
 	public bool isOn = false;
 
+	private float distanceToTarget;
 	private controlScript control;
 	private float tR;
 	private float cR;
@@ -59,7 +60,7 @@ public class RedirectSin : MonoBehaviour {
 			return;		
 		}
 
-		float distanceToTarget = Mathf.Abs(Vector3.Distance (target.position, reference.position));
+		distanceToTarget = Mathf.Abs(Vector3.Distance (target.position, reference.position));
 		float distortion = ComputeDistortion(distanceToTarget);
 		Vector3 direction = target.position - reference.position;
 		direction.Normalize ();
@@ -77,14 +78,13 @@ public class RedirectSin : MonoBehaviour {
 	{
 		if (d > actionRange)
 			return 0;
-		//else if (d < 0.001)
-		else if (d < tR) // to test
+		else if (d < 0.001)
 			return 0;
 		else
 		{			
 			float B = Mathf.PI / actionRange;
 			float A = 1f/B;
-			float distortion = strength/100f * A * Mathf.Sin(B*(d-tR);
+			float distortion = strength/100f * A * Mathf.Sin(B*d);
 			return distortion;
 		}
 	}
@@ -93,7 +93,7 @@ public class RedirectSin : MonoBehaviour {
 		this.target = newTarget;
 	}
 
-	public float distanceToTarget(){
-		return this.distanceToTarget
+	public float getDistanceToTarget(){
+		return this.distanceToTarget;
 	}
 }

@@ -21,7 +21,7 @@ public class TargetManager : MonoBehaviour
 	//private float period = 3f;
 
 	void Awake(){
-		control =  = GameObject.FindGameObjectWithTag("GameController").GetComponent<controlScript>(); 
+		control = GameObject.FindGameObjectWithTag("GameController").GetComponent<controlScript>(); 
 		nbTargets = control.nbTargets;
 		radius = control.circleRadius;
 		hand = control.triggerObject;
