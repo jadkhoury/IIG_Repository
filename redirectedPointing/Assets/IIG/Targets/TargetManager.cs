@@ -1,30 +1,36 @@
 //author: Jad Khoury
-//Script managing 
+//Script managing the target
 using UnityEngine;
 
 public class TargetManager : MonoBehaviour
 {
 	public GameObject targetPrefab;
-	public int nbTargets;
-	public float radius;
-
+	
 	private bool running = false; //Made public to test. Should eventually become private.
-
-	private GameObject activeTarget;
-	private int activationCounter = 0;
 	private bool triggered = false; 
+	private int activationCounter = 0;
+	private controlScript control;
+	private int nbTargets;
+	private float radius;
+	private GameObject activeTarget;
 	private int[] order;
 	private GameObject hand;
 	private RedirectSin distortionScript;
 	//Tests variable
-	private float nextActionTime = 0.0f;
-	private float period = 3f;
+	//private float nextActionTime = 0.0f;
+	//private float period = 3f;
+
+	void Awake(){
+		control =  = GameObject.FindGameObjectWithTag("GameController").GetComponent<controlScript>(); 
+		nbTargets = control.nbTargets;
+		radius = control.circleRadius;
+		hand = control.triggerObject;
+		distortionScript = hand.GetComponent<RedirectSin>();
+		order = computeOrder();
+	}
 
 
 	void Start(){
-		hand = GameObject.FindGameObjectWithTag("hand");
-		distortionScript = hand.GetComponent<RedirectSin>();
-		order = computeOrder();
 		createTargets();
 		Run();
 	}
@@ -53,7 +59,6 @@ public class TargetManager : MonoBehaviour
 			return;
 		running = true;
 		EnableBall(order[activationCounter]);
-		Debug.Log("Hey");
 	}
 	private void End(){ 
 		//We should be able to stop the exerience at all time.
@@ -83,8 +88,8 @@ public class TargetManager : MonoBehaviour
 		}
 		activeTarget = GameObject.Find("Target_" + index);
 		activeTarget.GetComponent<TargetScript>().Enable();
-		Debug.Log ("Target " + activationCounter + " activated");
 		++activationCounter;
+		//TODO: switch redirect target when leaving actionRange
 		distortionScript.setTarget(activeTarget.transform);
 	}
 

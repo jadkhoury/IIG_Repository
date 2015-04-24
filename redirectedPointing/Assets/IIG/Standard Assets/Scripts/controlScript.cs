@@ -1,17 +1,21 @@
-﻿using UnityEngine;
+//author: Jad Khoury
+//Script controling the experiment
+
+using UnityEngine;
 using System.Collections;
 
 public class controlScript : MonoBehaviour {
 
-	public float actionRange;
-	public float targetRadius;
+	public float actionRange = 0.125;
+	public float targetRadius = 1.5;
 	public float collisionRadius;
-	public float circleRadius;
-	public float nbTarget;
+	public float circleRadius = 0.125;
+	public float nbTarget = 12;
 	public Transform objectToRedirect;
 	public Transform defaultTarget;
 	public bool negativeDistortion;
 	public bool isDistortting;
+	public GameObject triggerObject;
 
 
 
