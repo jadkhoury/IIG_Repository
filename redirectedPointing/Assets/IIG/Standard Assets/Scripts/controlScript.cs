@@ -17,7 +17,14 @@ public class controlScript : MonoBehaviour {
 	public bool isDistortting;
 	public GameObject triggerObject;
 
+	public void Awake(){
+		actionRange = 0.125f;
+		actionRange = 0.125f;
+		targetRadius = 0.015f;
+		collisionRadius = 0.03f;
+	    circleRadius = 0.125f;
 
+	}
 
 	// Use this for initialization
 	void Start () {

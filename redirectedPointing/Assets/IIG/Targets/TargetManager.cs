@@ -16,6 +16,7 @@ public class TargetManager : MonoBehaviour
 	private int[] order;
 	private GameObject hand;
 	private RedirectSin distortionScript;
+	private bool waitingToLeaveAR = false;
 	//Tests variable
 	//private float nextActionTime = 0.0f;
 	//private float period = 3f;
@@ -49,7 +50,11 @@ public class TargetManager : MonoBehaviour
 		if (activationCounter >= order.Length){
 			Restart();
 			//End();
-
+		}
+		if (waitingToLeaveAR && distortionScript.getDistanceToTarget() > control.actionRange){
+			waitingToLeaveAR = false;
+			distortionScript.setTarget(activeTarget.transform);
+			Debug.Log("Switched distorion target: " + activeTarget.name);
 		}
 		
 	}
@@ -89,8 +94,7 @@ public class TargetManager : MonoBehaviour
 		activeTarget = GameObject.Find("Target_" + index);
 		activeTarget.GetComponent<TargetScript>().Enable();
 		++activationCounter;
-		//TODO: switch redirect target when leaving actionRange
-		distortionScript.setTarget(activeTarget.transform);
+		waitingToLeaveAR = true;
 	}
 
 	private int[] computeOrder(){
@@ -112,7 +116,7 @@ public class TargetManager : MonoBehaviour
 		for (int i = 1; i<= nbTargets; ++i) {
 			float angle = i * 2 * Mathf.PI / nbTargets;
 			float x = radius * Mathf.Cos(angle);
-			float y = 0.005f;
+			float y = 0.021f;
 			float z = radius * Mathf.Sin(angle);
 			GameObject targetClone = (GameObject) Instantiate(targetPrefab, transform.position + new Vector3(x, y, z), Quaternion.identity);
 			targetClone.transform.parent = transform;

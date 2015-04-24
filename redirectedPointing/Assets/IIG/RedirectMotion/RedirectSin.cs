@@ -9,14 +9,14 @@ using System.Collections;
 public class RedirectSin : MonoBehaviour {
 
 
-	public bool isOn = false;
+	public bool isOn = true;
+	public Transform reference;
 
 	private float distanceToTarget;
 	private controlScript control;
 	private float tR;
 	private float cR;
 	private Transform target; 
-	private Transform reference;
 	private bool negativeDistortion;
 	private bool isDistorting;
 	private float B;
@@ -36,6 +36,9 @@ public class RedirectSin : MonoBehaviour {
 		//computing of the strength param in term of the radius
 		float tmp = A * Mathf.Sin(B*cR);
 		strength = 100 * (cR - tR) /  tmp;
+		if (strength >= 100)
+			strength = 100;
+
 
 
 	}
@@ -53,6 +56,8 @@ public class RedirectSin : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
+		this.isDistorting = control.isDistortting;
+		this.negativeDistortion = control.isDistortting;
 		this.transform.rotation = reference.transform.rotation;
 
 		if (!isDistorting || !isOn) {
@@ -78,7 +83,7 @@ public class RedirectSin : MonoBehaviour {
 	{
 		if (d > actionRange)
 			return 0;
-		else if (d < 0.001)
+		else if (d < 0.01)
 			return 0;
 		else
 		{			

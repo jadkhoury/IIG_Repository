@@ -130,6 +130,8 @@ public class RigidBodyTransform : MonoBehaviour {
 
 			FindMarkers();
 			InitializeCS(data);
+			Debug.Log(gameObject.name + " calibration loaded: " +  Application.persistentDataPath
+			          + _fileNameForPersistentData );
 //			num = data.numToSerialize;              
 		}
 	}
@@ -227,9 +229,14 @@ public class RigidBodyTransform : MonoBehaviour {
 	void UpdateTransform(){
 		if (Input.GetKeyUp (KeyCode.C)) {
 			InitializeCS ();
+			Debug.Log(gameObject.name + " calibrated");
+
 		}
-		if (Input.GetKeyUp (KeyCode.S)) 
+		if (Input.GetKeyUp (KeyCode.S)){
 			Save ();
+			Debug.Log("Calibration of " + gameObject.name + " saved");
+		}
+			
 
 		if (!initialized)
 			return;
