@@ -120,6 +120,7 @@ public class TargetManager : MonoBehaviour
 			float z = radius * Mathf.Sin(angle);
 			GameObject targetClone = (GameObject) Instantiate(targetPrefab, transform.position + new Vector3(x, y, z), Quaternion.identity);
 			targetClone.transform.parent = transform;
+			targetClone.transform.rotation=targetClone.transform.parent.rotation;
 			targetClone.name = "Target_" + i;
 			targetClone.GetComponent<TargetScript>().Init();
 

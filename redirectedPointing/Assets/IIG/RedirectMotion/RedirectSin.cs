@@ -64,18 +64,27 @@ public class RedirectSin : MonoBehaviour {
 			this.transform.position = reference.position;
 			return;		
 		}
-
 		distanceToTarget = Mathf.Abs(Vector3.Distance (target.position, reference.position));
 		float distortion = ComputeDistortion(distanceToTarget);
 		Vector3 direction = target.position - reference.position;
 		direction.Normalize ();
 		Vector3 distortionVector = direction * distortion;
+		distortionVector = projectionOnTarget(distortionVector);
 		if (negativeDistortion)
 			this.transform.position = reference.position - distortionVector;
 		else
 			this.transform.position = reference.position + distortionVector;
 		return;
 
+
+	}
+
+	private Vector3 projectionOnTarget(Vector3 vect){
+		Vector3 normal = target.transform.forward;
+		normal.Normalize();
+		Vector3 newVect = new Vector3();
+		newVect = vect - Vector3.Dot(vect, normal) * normal;
+		return newVect;
 
 	}
 
