@@ -11,7 +11,9 @@ public class TargetManager : MonoBehaviour
 	private int activationCounter = 0;
 	private controlScript control;
 	private int nbTargets;
-	private float radius;
+	private float circleRadius;
+	private float tR;
+	private float aR;
 	private GameObject activeTarget;
 	private int[] order;
 	private GameObject hand;
@@ -24,7 +26,9 @@ public class TargetManager : MonoBehaviour
 	void Awake(){
 		control = GameObject.FindGameObjectWithTag("GameController").GetComponent<controlScript>(); 
 		nbTargets = control.nbTargets;
-		radius = control.circleRadius;
+		circleRadius = control.circleRadius;
+		aR = control.actionRange;
+		tR = control.targetRadius; 
 		hand = control.triggerObject;
 		distortionScript = hand.GetComponent<RedirectSin>();
 		order = computeOrder();
@@ -115,12 +119,16 @@ public class TargetManager : MonoBehaviour
 	private void createTargets(){
 		for (int i = 1; i<= nbTargets; ++i) {
 			float angle = i * 2 * Mathf.PI / nbTargets;
-			float x = radius * Mathf.Cos(angle);
-			float y = 0.021f;
-			float z = radius * Mathf.Sin(angle);
+			float x = circleRadius * Mathf.Cos(angle);
+			float y = 0.021f; //dependant to the size of the mesh cube
+			float z = circleRadius * Mathf.Sin(angle);
 			GameObject targetClone = (GameObject) Instantiate(targetPrefab, transform.position + new Vector3(x, y, z), Quaternion.identity);
 			targetClone.transform.parent = transform;
-			targetClone.transform.rotation=targetClone.transform.parent.rotation;
+			targetClone.transform.rotation = targetClone.transform.parent.rotation;
+			targetClone.transform.Rotate(new Vector3(0, 0,-angle*180/Mathf.PI));
+			targetClone.transform.localScale = new Vector3(2*tR, 2*tR, 0.005f); //because the scale rep the diameter not the radius
+			BoxCollider box = targetClone.AddComponent<BoxCollider>();
+			box.size = (new Vector3(aR/tR, aR/tR, 1));
 			targetClone.name = "Target_" + i;
 			targetClone.GetComponent<TargetScript>().Init();
 

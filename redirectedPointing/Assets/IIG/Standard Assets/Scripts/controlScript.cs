@@ -8,7 +8,7 @@ public class controlScript : MonoBehaviour {
 
 	public float actionRange = 0.125f;
 	public float targetRadius = 1.5f;
-	public float collisionRadius;
+	public float virtualTargetRadius;
 	public float circleRadius = 0.125f;
 	public int nbTargets = 12;
 	public Transform objectToRedirect;
@@ -21,7 +21,7 @@ public class controlScript : MonoBehaviour {
 		actionRange = 0.125f;
 		actionRange = 0.125f;
 		targetRadius = 0.015f;
-		collisionRadius = 0.03f;
+		virtualTargetRadius = 0.03f;
 	    circleRadius = 0.125f;
 
 	}

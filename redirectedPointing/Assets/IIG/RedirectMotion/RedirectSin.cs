@@ -15,7 +15,7 @@ public class RedirectSin : MonoBehaviour {
 	private float distanceToTarget;
 	private controlScript control;
 	private float tR;
-	private float cR;
+	private float vTR;
 	private Transform target; 
 	private bool negativeDistortion;
 	private bool isDistorting;
@@ -27,15 +27,15 @@ public class RedirectSin : MonoBehaviour {
 	void Awake(){
 		control = GameObject.FindGameObjectWithTag("GameController").GetComponent<controlScript>(); 
 		tR = control.targetRadius;
-		cR = control.collisionRadius;
+		vTR = control.virtualTargetRadius;
 		target = control.defaultTarget;
 		reference = control.objectToRedirect;
 		actionRange = control.actionRange;
 		B = Mathf.PI / actionRange;
 		A = 1f/B;
 		//computing of the strength param in term of the radius
-		float tmp = A * Mathf.Sin(B*cR);
-		strength = 100 * (cR - tR) /  tmp;
+		float tmp = A * Mathf.Sin(B*vTR);
+		strength = 100 * (vTR - tR) /  tmp;
 		if (strength >= 100)
 			strength = 100;
 
@@ -69,7 +69,7 @@ public class RedirectSin : MonoBehaviour {
 		Vector3 direction = target.position - reference.position;
 		direction.Normalize ();
 		Vector3 distortionVector = direction * distortion;
-		distortionVector = projectionOnTarget(distortionVector);
+		 distortionVector = projectionOnTarget(distortionVector);
 		if (negativeDistortion)
 			this.transform.position = reference.position - distortionVector;
 		else
