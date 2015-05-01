@@ -128,9 +128,10 @@ public class TargetManager : MonoBehaviour
 			targetClone.transform.Rotate(new Vector3(0, 0,-angle*180/Mathf.PI));
 			targetClone.transform.localScale = new Vector3(2*tR, 2*tR, 0.005f); //because the scale rep the diameter not the radius
 			BoxCollider box = targetClone.AddComponent<BoxCollider>();
-			box.size = (new Vector3(aR/tR, aR/tR, 1));
+			box.size = (new Vector3(aR/tR, aR/tR, 0.3f));
 			targetClone.name = "Target_" + i;
 			targetClone.GetComponent<TargetScript>().Init();
+
 
 		}
 
