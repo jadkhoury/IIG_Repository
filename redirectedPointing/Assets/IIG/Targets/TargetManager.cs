@@ -5,138 +5,161 @@ using UnityEngine;
 public class TargetManager : MonoBehaviour
 {
 	public GameObject targetPrefab;
-	
 	private bool running = false; //Made public to test. Should eventually become private.
-	private bool triggered = false; 
+	private bool triggered = false;
 	private int activationCounter = 0;
 	private controlScript control;
 	private int nbTargets;
 	private float circleRadius;
 	private float tR;
 	private float aR;
-	private GameObject activeTarget;
+	private GameObject activeTarget = null;
 	private int[] order;
 	private GameObject hand;
 	private RedirectSin distortionScript;
 	private bool waitingToLeaveAR = false;
 	//Tests variable
-	//private float nextActionTime = 0.0f;
-	//private float period = 3f;
-
-	void Awake(){
-		control = GameObject.FindGameObjectWithTag("GameController").GetComponent<controlScript>(); 
+	private float nextActionTime = 1.0f;
+	private float period = 1f;
+	private GameObject[] targetsArray;
+	
+	void Awake ()
+	{
+		control = GameObject.FindGameObjectWithTag ("GameController").GetComponent<controlScript> (); 
 		nbTargets = control.nbTargets;
 		circleRadius = control.circleRadius;
 		aR = control.actionRange;
 		tR = control.targetRadius; 
 		hand = control.triggerObject;
-		distortionScript = hand.GetComponent<RedirectSin>();
-		order = computeOrder();
+		distortionScript = hand.GetComponent<RedirectSin> ();
+		order = ComputeOrder ();
+		targetsArray = new GameObject[nbTargets + 1];
 	}
-
-
-	void Start(){
-		createTargets();
-		Run();
+	
+	void Start ()
+	{
+		CreateTargets ();
+		Run ();
 	}
-
-	void Update(){
+	
+	void Update ()
+	{
 		//For testing
-		//if (Time.time > nextActionTime ) {
+		//if (running && Time.time > nextActionTime) {
 		//	nextActionTime += period;
-		//	EnableBall(order[activationCounter]);
+		//	Trigger ();
 		//}
-			
-		if (running && triggered){
-			EnableBall(order[activationCounter]);
-			triggered = false;
+		
+		if (running && triggered) {
+			if (activationCounter < nbTargets) {
+				EnableTarget (order [activationCounter]);
+				triggered = false;
+			} else {
+				End ();
+			}
 		}
-		if (activationCounter >= order.Length){
-			Restart();
-			//End();
-		}
-		if (waitingToLeaveAR && distortionScript.getDistanceToTarget() > control.actionRange){
+		
+		if (running && waitingToLeaveAR && distortionScript.GetDistanceToTarget () > control.actionRange) {
 			waitingToLeaveAR = false;
-			distortionScript.setTarget(activeTarget.transform);
-			Debug.Log("Switched distorion target: " + activeTarget.name);
+			distortionScript.SetTarget (activeTarget.transform);
+			Debug.Log (Time.time + ": Switched distorion target: " + activeTarget.name);
 		}
 		
 	}
-
-	public void Run(){
+	
+	public void Run ()
+	{
 		if (running == true)
 			return;
 		running = true;
-		EnableBall(order[activationCounter]);
+		EnableTarget (order [activationCounter]);
 	}
-	private void End(){ 
+	
+	private void End ()
+	{ 
 		//We should be able to stop the exerience at all time.
 		running = false;
 		activationCounter = 0;
-		if (activeTarget != null){
-			activeTarget.GetComponent<TargetScript>().Disable();
+		if (activeTarget != null) {
+			activeTarget.GetComponent<TargetScript> ().Disable ();
 			activeTarget = null;
 		}
+		control.BlockCompleted (this.gameObject);
 	}
-
-	public void Restart(){
+	
+	public void Restart ()
+	{
 		End ();
 		Run ();
+		
 	}
-
-
-	public void Trigger(){
-		this.triggered = true;
-
-	}
-
-	private void EnableBall(int index){
-		//there will always be only one target active at a time
-		if (activeTarget != null){
-			activeTarget.GetComponent<TargetScript>().Disable();
+	
+	public void Destroy ()
+	{
+		
+		foreach (GameObject obj in targetsArray) {
+			Object.Destroy (obj);
+			
 		}
-		activeTarget = GameObject.Find("Target_" + index);
-		activeTarget.GetComponent<TargetScript>().Enable();
+	}
+	
+	public void Trigger ()
+	{
+		this.triggered = true;
+		
+	}
+	
+	private void EnableTarget (int index)
+	{
+		//there will always be only one target active at a time
+		if (activeTarget != null) {
+			activeTarget.GetComponent<TargetScript> ().Disable ();
+		}
+		activeTarget = targetsArray [index];
+		Debug.Log (Time.time + ": " + activeTarget.name);
+		activeTarget.GetComponent<TargetScript> ().Enable ();
 		++activationCounter;
+		if (activationCounter == 1)
+			distortionScript.SetTarget (activeTarget.transform);
 		waitingToLeaveAR = true;
 	}
-
-	private int[] computeOrder(){
-		int half = Mathf.CeilToInt(nbTargets/2.0f);
+	
+	private int[] ComputeOrder ()
+	{
+		int half = Mathf.CeilToInt (nbTargets / 2.0f);
 		int index = 0;
 		int[] order = new int[nbTargets];
-		for(int i = 1; i <= half; ++i){
-			order[index] = i;
+		for (int i = 1; i <= half; ++i) {
+			order [index] = i;
 			index++;
-			if (index < nbTargets){
-				order[index] = i + half;
+			if (index < nbTargets) {
+				order [index] = i + half;
 				index++;
 			}
 		}
 		return order;
 	}
-
-	private void createTargets(){
+	
+	private void CreateTargets ()
+	{
+		targetsArray [0] = null;
 		for (int i = 1; i<= nbTargets; ++i) {
 			float angle = i * 2 * Mathf.PI / nbTargets;
-			float x = circleRadius * Mathf.Cos(angle);
+			float x = circleRadius * Mathf.Cos (angle);
 			float y = 0.021f; //dependant to the size of the mesh cube
-			float z = circleRadius * Mathf.Sin(angle);
-			GameObject targetClone = (GameObject) Instantiate(targetPrefab, transform.position + new Vector3(x, y, z), Quaternion.identity);
+			float z = circleRadius * Mathf.Sin (angle);
+			GameObject targetClone = (GameObject)Instantiate (targetPrefab, transform.position + new Vector3 (x, y, z), Quaternion.identity);
 			targetClone.transform.parent = transform;
 			targetClone.transform.rotation = targetClone.transform.parent.rotation;
-			targetClone.transform.Rotate(new Vector3(0, 0,-angle*180/Mathf.PI));
-			targetClone.transform.localScale = new Vector3(2*tR, 2*tR, 0.005f); //because the scale rep the diameter not the radius
-			BoxCollider box = targetClone.AddComponent<BoxCollider>();
-			box.size = (new Vector3(aR/tR, aR/tR, 0.3f));
+			targetClone.transform.Rotate (new Vector3 (0, 0, -angle * 180 / Mathf.PI));
+			targetClone.transform.localScale = new Vector3 (2 * tR, 2 * tR, 0.005f); //because the scale rep the diameter not the radius
+			BoxCollider box = targetClone.AddComponent<BoxCollider> ();
+			box.size = (new Vector3 (aR / tR, aR / tR, 0.3f));
 			targetClone.name = "Target_" + i;
-			targetClone.GetComponent<TargetScript>().Init();
-
-
+			targetsArray [i] = targetClone;
+			targetClone.GetComponent<TargetScript> ().Init ();
 		}
-
+		
 	}
-
 }
-
 
