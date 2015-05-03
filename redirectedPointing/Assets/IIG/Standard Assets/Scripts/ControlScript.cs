@@ -3,7 +3,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class controlScript : MonoBehaviour
+public class ControlScript : MonoBehaviour
 {
 	
 	public float actionRange = 0.125f;
@@ -40,14 +40,21 @@ public class controlScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (Input.GetKeyUp (KeyCode.Space)) {
+			display.GetComponent<TargetManager>().Run();
+		}
+		if (Input.GetKeyUp (KeyCode.T)) {
+			display.GetComponent<TargetManager>().Trigger();
+		}
 
 	}
 	
 	public void BlockCompleted (GameObject caller)
 	{
-		TargetManager manager = display.GetComponent<TargetManager>();
-		manager.Destroy();
+		TargetManager tgtManager = display.GetComponent<TargetManager>();
+		tgtManager.DestroyTargets();
+		AnswerManager aManager = display.GetComponent<AnswerManager>();
+		aManager.Run();
 	}
-	
 	
 }

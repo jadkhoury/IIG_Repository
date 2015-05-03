@@ -5,10 +5,11 @@ using UnityEngine;
 public class TargetManager : MonoBehaviour
 {
 	public GameObject targetPrefab;
+
 	private bool running = false; //Made public to test. Should eventually become private.
 	private bool triggered = false;
 	private int activationCounter = 0;
-	private controlScript control;
+	private ControlScript control;
 	private int nbTargets;
 	private float circleRadius;
 	private float tR;
@@ -25,7 +26,7 @@ public class TargetManager : MonoBehaviour
 	
 	void Awake ()
 	{
-		control = GameObject.FindGameObjectWithTag ("GameController").GetComponent<controlScript> (); 
+		control = GameObject.FindGameObjectWithTag ("GameController").GetComponent<ControlScript> (); 
 		nbTargets = control.nbTargets;
 		circleRadius = control.circleRadius;
 		aR = control.actionRange;
@@ -36,11 +37,6 @@ public class TargetManager : MonoBehaviour
 		targetsArray = new GameObject[nbTargets + 1];
 	}
 	
-	void Start ()
-	{
-		CreateTargets ();
-		Run ();
-	}
 	
 	void Update ()
 	{
@@ -69,10 +65,12 @@ public class TargetManager : MonoBehaviour
 	
 	public void Run ()
 	{
-		if (running == true)
+		if (running)
 			return;
+		CreateTargets ();
 		running = true;
 		EnableTarget (order [activationCounter]);
+
 	}
 	
 	private void End ()
@@ -85,6 +83,7 @@ public class TargetManager : MonoBehaviour
 			activeTarget = null;
 		}
 		control.BlockCompleted (this.gameObject);
+		control.isDistorting = false;
 	}
 	
 	public void Restart ()
@@ -94,12 +93,10 @@ public class TargetManager : MonoBehaviour
 		
 	}
 	
-	public void Destroy ()
+	public void DestroyTargets ()
 	{
-		
 		foreach (GameObject obj in targetsArray) {
 			Object.Destroy (obj);
-			
 		}
 	}
 	

@@ -1,4 +1,4 @@
-﻿//author: Jad Khoury
+//author: Jad Khoury
 //Class used to compute and apply the distortion to the object this script is attached to
 //from the reference object in regard to the target 
 using UnityEngine;
@@ -7,13 +7,10 @@ using System.Collections;
 [ExecuteInEditMode]
 public class RedirectSin : MonoBehaviour
 {
-	
-	
-	public bool isOn = true;
 	public Transform reference;
 	[SerializeField] 
 	private float distanceToTarget;
-	private controlScript control;
+	private ControlScript control;
 	private float tR;
 	private float vTR;
 	private Transform target;
@@ -27,7 +24,7 @@ public class RedirectSin : MonoBehaviour
 	
 	void Awake ()
 	{
-		control = GameObject.FindGameObjectWithTag ("GameController").GetComponent<controlScript> (); 
+		control = GameObject.FindGameObjectWithTag ("GameController").GetComponent<ControlScript> (); 
 		tR = control.targetRadius;
 		vTR = control.virtualTargetRadius;
 		target = control.defaultTarget;
@@ -47,12 +44,6 @@ public class RedirectSin : MonoBehaviour
 	
 	void Update ()
 	{
-		if (Input.GetKeyUp (KeyCode.V))
-			isDistorting = !isDistorting;
-		if (Input.GetKeyUp (KeyCode.B))
-			isOn = !isOn; 
-		if (Input.GetKeyUp (KeyCode.C))
-			negativeDistortion = !negativeDistortion;
 	}
 	
 	
@@ -64,7 +55,7 @@ public class RedirectSin : MonoBehaviour
 		this.negativeDistortion = control.negativeDistortion;
 		this.transform.rotation = reference.transform.rotation;
 		
-		if (!isDistorting || !isOn) {
+		if (!isDistorting) {
 			this.transform.position = reference.position;
 			return;		
 		}
@@ -78,7 +69,6 @@ public class RedirectSin : MonoBehaviour
 			this.transform.position = reference.position - distortionVector;
 		else
 			this.transform.position = reference.position + distortionVector;
-		//Debug.Log("distortion value: " + distortion);
 		return;
 		
 		
