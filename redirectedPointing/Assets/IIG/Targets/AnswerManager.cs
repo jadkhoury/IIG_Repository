@@ -39,11 +39,12 @@ public class AnswerManager : MonoBehaviour
 
 	void createAnswers ()
 	{
+		this.transform.rotation = Quaternion.identity;
 		for (int i = 0; i <2; ++i) {
 			float angle = i * 2 * Mathf.PI / 2;
 			float x = circleRadius * Mathf.Cos (angle);
-			float y = 0.021f; //dependant to the size of the mesh cube
-			float z = circleRadius * Mathf.Sin (angle);
+			float y = circleRadius * Mathf.Sin (angle); //dependant to the size of the mesh cube
+			float z = 0.021f;
 			GameObject answerClone = (GameObject)Instantiate (answerPrefab, transform.position + new Vector3 (x, y, z), Quaternion.identity);
 			answerClone.transform.parent = transform;
 			answerClone.transform.rotation = answerClone.transform.parent.rotation;

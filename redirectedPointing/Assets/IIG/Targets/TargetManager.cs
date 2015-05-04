@@ -139,16 +139,17 @@ public class TargetManager : MonoBehaviour
 	
 	private void CreateTargets ()
 	{
+		this.transform.rotation=Quaternion.identity; //during the time the targets are created the display is straight
 		targetsArray [0] = null;
 		for (int i = 1; i<= nbTargets; ++i) {
 			float angle = i * 2 * Mathf.PI / nbTargets;
 			float x = circleRadius * Mathf.Cos (angle);
-			float y = 0.021f; //dependant to the size of the mesh cube
-			float z = circleRadius * Mathf.Sin (angle);
+			float y = circleRadius * Mathf.Sin (angle);//dependant to the size of the mesh cube
+			float z = 0.021f; 
 			GameObject targetClone = (GameObject)Instantiate (targetPrefab, transform.position + new Vector3 (x, y, z), Quaternion.identity);
 			targetClone.transform.parent = transform;
 			targetClone.transform.rotation = targetClone.transform.parent.rotation;
-			targetClone.transform.Rotate (new Vector3 (0, 0, -angle * 180 / Mathf.PI));
+			targetClone.transform.Rotate (new Vector3 (0, 0, angle * 180 / Mathf.PI));
 			targetClone.transform.localScale = new Vector3 (2 * tR, 2 * tR, 0.005f); //because the scale rep the diameter not the radius
 			BoxCollider box = targetClone.AddComponent<BoxCollider> ();
 			box.size = (new Vector3 (aR / tR, aR / tR, 0.3f));
