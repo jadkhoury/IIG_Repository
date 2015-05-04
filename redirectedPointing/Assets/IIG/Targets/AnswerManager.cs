@@ -32,7 +32,7 @@ public class AnswerManager : MonoBehaviour
 
 	public void Answer (string s)
 	{
-		Debug.Log (s);
+		control.QuestionAnswered();
 		foreach (GameObject obj in buttons)
 			Object.Destroy (obj);
 	}

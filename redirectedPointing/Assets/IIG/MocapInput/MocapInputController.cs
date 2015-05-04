@@ -167,7 +167,7 @@ public class MocapInputController : MonoBehaviour {
 			}	
 			
 			// convert pos to Vector3 format, used by MarkersDebug to set markers representation position
-			if (debugMarkersPos){
+			//if (debugMarkersPos){
 				for (int i = 0 ; i< totalMarkers; i++){
 					//if marker is not visible its position is not updated
 					if (!visibFrame[i]){
@@ -181,7 +181,7 @@ public class MocapInputController : MonoBehaviour {
 					}
 				}
 				//mkrDebug.LogMocapFrame();
-			}
+			//}
 			
 			if (avtController!= null)
 				avtController.MocapUpdateIK(vrpn_client.marker_ids, frame);

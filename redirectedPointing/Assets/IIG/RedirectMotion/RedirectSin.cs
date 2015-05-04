@@ -49,7 +49,7 @@ public class RedirectSin : MonoBehaviour
 	
 	
 	// Update is called once per frame
-	void FixedUpdate ()
+	void LateUpdate ()
 	{
 		this.isDistorting = control.isDistorting;
 		this.negativeDistortion = control.negativeDistortion;

@@ -1,12 +1,3 @@
 Connection string: Tracker0@localhost
 Marker Alias file: .\Compiled\calibrationFolder\jad_marker_config.txt
 Input from VRPN Server
-Connection string: Tracker0@localhost
-Marker Alias file: .\Compiled\calibrationFolder\jad_marker_config.txt
-Input from VRPN Server
-Connection string: Tracker0@localhost
-Marker Alias file: .\Compiled\calibrationFolder\jad_marker_config.txt
-Input from VRPN Server
-Connection string: Tracker0@localhost
-Marker Alias file: .\Compiled\calibrationFolder\jad_marker_config.txt
-Input from VRPN Server

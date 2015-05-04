@@ -69,6 +69,7 @@ public class TargetManager : MonoBehaviour
 			return;
 		CreateTargets ();
 		running = true;
+		control.isDistorting = true;
 		EnableTarget (order [activationCounter]);
 
 	}
@@ -82,8 +83,9 @@ public class TargetManager : MonoBehaviour
 			activeTarget.GetComponent<TargetScript> ().Disable ();
 			activeTarget = null;
 		}
-		control.BlockCompleted (this.gameObject);
 		control.isDistorting = false;
+		control.TrialCompleted ();
+
 	}
 	
 	public void Restart ()
