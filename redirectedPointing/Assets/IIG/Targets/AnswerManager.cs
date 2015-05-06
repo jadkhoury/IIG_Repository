@@ -30,9 +30,9 @@ public class AnswerManager : MonoBehaviour
 	
 	}
 
-	public void Answer (string s)
+	public void Answer(string answer)
 	{
-		control.QuestionAnswered();
+		control.QuestionAnswered(answer);
 		foreach (GameObject obj in buttons)
 			Object.Destroy (obj);
 	}
