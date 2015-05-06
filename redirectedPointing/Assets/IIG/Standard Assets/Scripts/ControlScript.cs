@@ -40,12 +40,15 @@ public class ControlScript : MonoBehaviour
 	private CsvFileWriter customCsvWriter;
 	CsvRow row;
 	private string stringFormatingTime;
+	private GameObject question;
 
 
 	void Awake ()
 	{
 		display = GameObject.FindGameObjectWithTag("Display");
 		blockLength = conditions.Length * repetitionsPerBlock; 
+		question = GameObject.FindGameObjectWithTag("Text");
+		question.SetActive(false);
 		stringFormatingTime = GetComponent<MotionLog>().stringFormatingTime;
 		for (int i = 0; i < nbBlocks; i++) {
 			blocks.Add(new List<float>());
@@ -60,6 +63,7 @@ public class ControlScript : MonoBehaviour
 		customCsvWriter = new CsvFileWriter(nameOfSubject + ".csv");
 		row = new CsvRow();
 		row.Add("Block nb");
+		row.Add ("trial nb");
 		row.Add("Start time");
 		row.Add("End time");
 		row.Add("Target Radius");
@@ -108,6 +112,7 @@ public class ControlScript : MonoBehaviour
 		row = new CsvRow();
 		string timestamp = Time.time.ToString(stringFormatingTime);
 		row.Add(currentBlock.ToString ());
+		row.Add(currentTrial.ToString());
 		row.Add(timestamp);
 		this.virtualTargetRadius = blocks[currentBlock][currentTrial];
 		Debug.Log ("tR =" + targetRadius + ", vTR =" + virtualTargetRadius);
@@ -127,7 +132,7 @@ public class ControlScript : MonoBehaviour
 	}
 
 	private void AskQuestion(){
-		//TODO display gui text for question
+		question.SetActive(true);
 		AnswerManager aManager = display.GetComponent<AnswerManager>();
 		aManager.Run();
 	}
@@ -135,6 +140,7 @@ public class ControlScript : MonoBehaviour
 	public void QuestionAnswered(string s){
 		Debug.Log("Question Aswered: "+s);
 		questionAnswered = true;
+		question.SetActive(false);
 		row.Add(s);
 		customCsvWriter.WriteRow(row);
 	}
@@ -148,6 +154,7 @@ public class ControlScript : MonoBehaviour
 	}
 
 	private void EndExperiment(){
+		customCsvWriter.Close();
 		// TODO
 	}
 	

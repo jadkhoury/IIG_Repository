@@ -46,9 +46,9 @@ public class TargetManager : MonoBehaviour
 
 		if (running && triggered) {
 			Debug.Log("Trigger loop");
+			triggered = false;
 			if (activationCounter < nbTargets) {
 				EnableTarget (order [activationCounter]);
-				triggered = false;
 			} else {
 				End ();
 			}
