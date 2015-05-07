@@ -18,9 +18,6 @@ public class TargetManager : MonoBehaviour
 	private GameObject hand;
 	private RedirectSin distortionScript;
 	private bool waitingToLeaveAR = false;
-	//Tests variable
-	private float nextActionTime = 1.0f;
-	private float period = 1f;
 	private GameObject[] targetsArray;
 
 	void Awake ()
@@ -38,12 +35,6 @@ public class TargetManager : MonoBehaviour
 
 	void Update ()
 	{
-		//For testing
-		//if (running && Time.time > nextActionTime) {
-		//	nextActionTime += period;
-		//	Trigger ();
-		//}ttttt
-
 		if (running && triggered) {
 			Debug.Log("Trigger loop");
 			triggered = false;

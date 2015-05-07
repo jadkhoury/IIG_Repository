@@ -11,7 +11,6 @@ public class ControlScript : MonoBehaviour
 	public Transform defaultTarget;
 	public bool isDistorting;
 	public bool negativeDistortion;
-
 	public float actionRange = 0.125f;
 	public float targetRadius = 0.015f;
 	public float virtualTargetRadius = 0.03f;
@@ -22,16 +21,14 @@ public class ControlScript : MonoBehaviour
 	public float[] conditions;
 	public bool log = true;
 	public string nameOfSubject = "Subject0";
-	public float timeBetweenBlocks = 60;
+	public bool blockRunning = false;
 
 
-
-	[SerializeField]
 	private GameObject display;
 	private float currentTime;
 	private bool trialCompleted = false;
 	private bool questionAnswered = false;
-	private List<List<float>> blocks = new List<List<float>>();
+	private List<List<float>> blocks = new List<List<float>> ();
 	[SerializeField]
 	private int currentTrial = 0;
 	[SerializeField]
@@ -41,138 +38,177 @@ public class ControlScript : MonoBehaviour
 	CsvRow row;
 	private string stringFormatingTime;
 	private GameObject question;
-
+	private Animator anim;
 
 	void Awake ()
 	{
-		display = GameObject.FindGameObjectWithTag("Display");
 		blockLength = conditions.Length * repetitionsPerBlock; 
-		question = GameObject.FindGameObjectWithTag("Text");
-		question.SetActive(false);
-		stringFormatingTime = GetComponent<MotionLog>().stringFormatingTime;
+		display = GameObject.FindGameObjectWithTag ("Display");
+		anim = GameObject.FindGameObjectWithTag ("GUI").GetComponent<Animator>();
+		question = GameObject.FindGameObjectWithTag ("Text");
+		question.SetActive (false);
+		stringFormatingTime = GetComponent<MotionLog> ().stringFormatingTime;
 		for (int i = 0; i < nbBlocks; i++) {
-			blocks.Add(new List<float>());
+			blocks.Add (new List<float> ());
 		}
-		fillBlocks();
+		fillBlocks ();
 	}
 
 
 	// Use this for initialization
 	void Start ()
 	{
-		customCsvWriter = new CsvFileWriter(nameOfSubject + ".csv");
-		row = new CsvRow();
-		row.Add("Block nb");
-		row.Add ("trial nb");
-		row.Add("Start time");
-		row.Add("End time");
-		row.Add("Target Radius");
-		row.Add("Virtual Target Radius");
-		row.Add("Distortion percieved");
-		customCsvWriter.WriteRow(row);
+		customCsvWriter = new CsvFileWriter (nameOfSubject + ".csv");
+		row = new CsvRow ();
+		row.Add ("Block nb");
+		row.Add ("Trial nb");
+		row.Add ("Start time");
+		row.Add ("End time");
+		row.Add ("Target Radius");
+		row.Add ("Virtual Target Radius");
+		row.Add ("Distortion percieved");
+		customCsvWriter.WriteRow (row);
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
 		if (Input.GetKeyUp (KeyCode.Space)) {
-			StartBlock();
+			StartBlock ();
 		}
+		//For testing
 		if (Input.GetKeyUp (KeyCode.T)) {
-			display.GetComponent<TargetManager>().Trigger();
+			display.GetComponent<TargetManager> ().Trigger ();
 		}
+		//For testing
+		if (Input.GetKeyUp (KeyCode.Y)) {
+			QuestionAnswered ("YES");
+		}
+		//For testing
+		if (Input.GetKeyUp (KeyCode.N)) {
+			QuestionAnswered ("NO");
+		}
+		//For testing
+		if (Input.GetKeyUp (KeyCode.R)) {
+			anim.SetTrigger ("FadeOut");
+		}
+		//For testing
+		if (Input.GetKeyUp (KeyCode.E)) {
+			anim.SetTrigger ("End");
+		}
+		//For testing
+		if (Input.GetKeyUp (KeyCode.P)) {
+			anim.SetTrigger ("Pause");
+		}
+		//********FLLUX IMPLEMENTATION********//
 		if (trialCompleted) {
 			trialCompleted = false;
-			EndTrial();
-			Invoke("AskQuestion", 2);
-			//AskQuestion();
+			EndTrial ();
+			Invoke ("AskQuestion", 1);
 		}
-		if (questionAnswered){
+		if (questionAnswered) {
 			questionAnswered = false;
 			++currentTrial;
 			if (currentTrial < blockLength) {
-				Invoke("StartNextTrial", 2);
+				Invoke ("StartNextTrial", 1);
 			} else {
 				if (currentBlock < nbBlocks) {
 					currentBlock++;
-					pauseBetweenBlocks();
+					pauseBetweenBlocks ();
 				} else {
-					EndExperiment();
+					EndExperiment ();
 				}
 			}
 		}
 	}
 
-	void OnDestroy(){
-		customCsvWriter.Close();
+	void OnDestroy ()
+	{
+		customCsvWriter.Close ();
 	}
 
-
-	private void StartNextTrial(){
-		row = new CsvRow();
-		string timestamp = Time.time.ToString(stringFormatingTime);
-		row.Add(currentBlock.ToString ());
-		row.Add(currentTrial.ToString());
-		row.Add(timestamp);
-		this.virtualTargetRadius = blocks[currentBlock][currentTrial];
+	private void StartNextTrial ()
+	{
+		//LOG
+		row = new CsvRow ();
+		string timestamp = Time.time.ToString (stringFormatingTime);
+		row.Add (currentBlock.ToString ());
+		row.Add (currentTrial.ToString ());
+		row.Add (timestamp);
+		//Begin
+		this.virtualTargetRadius = blocks [currentBlock] [currentTrial];
 		Debug.Log ("tR =" + targetRadius + ", vTR =" + virtualTargetRadius);
-		display.GetComponent<TargetManager>().Run();
+		display.GetComponent<TargetManager> ().Run ();
 	}
-	public void TrialCompleted (){
+
+	public void TrialCompleted ()
+	{
 		trialCompleted = true;
 		
 	}
-	private void EndTrial(){
-		TargetManager tgtManager = display.GetComponent<TargetManager>();
-		tgtManager.DestroyTargets();
-		string timestamp = Time.time.ToString(stringFormatingTime);
-		row.Add(timestamp);
-		row.Add(targetRadius.ToString());
-		row.Add(virtualTargetRadius.ToString());
+
+	private void EndTrial ()
+	{
+		TargetManager tgtManager = display.GetComponent<TargetManager> ();
+		tgtManager.DestroyTargets ();
+		string timestamp = Time.time.ToString (stringFormatingTime);
+		row.Add (timestamp);
+		row.Add (targetRadius.ToString ());
+		row.Add (virtualTargetRadius.ToString ());
 	}
 
-	private void AskQuestion(){
-		question.SetActive(true);
-		AnswerManager aManager = display.GetComponent<AnswerManager>();
-		aManager.Run();
+	private void AskQuestion ()
+	{
+		question.SetActive (true);
+		AnswerManager aManager = display.GetComponent<AnswerManager> ();
+		aManager.Run ();
 	}
 
-	public void QuestionAnswered(string s){
-		Debug.Log("Question Aswered: "+s);
+	public void QuestionAnswered (string s)
+	{
+		display.GetComponent<AnswerManager> ().Destroy ();
+		;
+		Debug.Log ("Question Aswered: " + s);
 		questionAnswered = true;
-		question.SetActive(false);
-		row.Add(s);
-		customCsvWriter.WriteRow(row);
+		question.SetActive (false);
+		row.Add (s);
+		customCsvWriter.WriteRow (row);
 	}
 
-
-	
-
-	private void StartBlock(){
+	private void StartBlock ()
+	{
+		if (blockRunning)
+			return;
+		if (anim.GetCurrentAnimatorStateInfo(0).IsName("PauseClip"))
+			anim.SetTrigger("FadeOut");
+		blockRunning = true;
 		currentTrial = 0;
-		StartNextTrial();
+		StartNextTrial ();
 	}
 
-	private void EndExperiment(){
-		customCsvWriter.Close();
-		// TODO
+	private void EndExperiment ()
+	{
+		customCsvWriter.Close ();
+		anim.SetTrigger("End");
 	}
 	
-	private void pauseBetweenBlocks(){
-		//TODO: display something
-		Invoke("StartBlock", timeBetweenBlocks); 
+	private void pauseBetweenBlocks ()
+	{
+		blockRunning = false;
+		anim.SetTrigger ("Pause");
 	}
 
-	private void fillBlocks(){
+	private void fillBlocks ()
+	{
 		foreach (float param in conditions) {
 			foreach (List<float> block in blocks) {
 				for (int j = 0; j < repetitionsPerBlock; j++) {
-					block.Add(param);
+					block.Add (param);
 				}
 			}
 		}
 		foreach (List<float> block in blocks) {
-			block.Shuffle();			
+			block.Shuffle ();			
 		}
 	}
 }
