@@ -71,7 +71,7 @@ public class RedirectLog : MonoBehaviour
 		else if (d < 0.01)
 			return 0;
 		else {			
-			float tmp = Mathf.Log(vTR/actionRange) / Mathf.Log (tR/actionRange);
+			float tmp =  Mathf.Log (tR/actionRange) / Mathf.Log(vTR/actionRange);
 			float distortion = actionRange * Mathf.Pow(d/actionRange, tmp) - d; // -d because we add the vector to d
 			Debug.Log("Distortion =  " + distortion); 
 			return distortion;
