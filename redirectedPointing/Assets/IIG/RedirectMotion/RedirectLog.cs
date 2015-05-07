@@ -36,8 +36,9 @@ public class RedirectLog : MonoBehaviour
 	void LateUpdate ()
 	{
 		this.isDistorting = control.isDistorting;
-
 		this.transform.rotation = reference.transform.rotation;
+		this.vTR = control.virtualTargetRadius;
+		this.tR = control.targetRadius;
 		
 		if (!isDistorting) {
 			this.transform.position = reference.position;
@@ -71,9 +72,9 @@ public class RedirectLog : MonoBehaviour
 		else if (d < 0.01)
 			return 0;
 		else {			
-			float tmp =  Mathf.Log (tR/actionRange) / Mathf.Log(vTR/actionRange);
+			float tmp =  Mathf.Log (tR/actionRange,vTR/actionRange);
 			float distortion = actionRange * Mathf.Pow(d/actionRange, tmp) - d; // -d because we add the vector to d
-			Debug.Log("Distortion =  " + distortion); 
+			Debug.Log("Distortion, TR, vTR =  " + tR + " , " + vTR + " , " + distortion); 
 			return distortion;
 		}
 	}

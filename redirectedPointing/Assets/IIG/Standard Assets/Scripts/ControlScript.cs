@@ -21,16 +21,17 @@ public class ControlScript : MonoBehaviour
 	public bool log = true;
 	public string nameOfSubject = "Subject0";
 	public bool blockRunning = false;
-	
 	private GameObject display;
 	private float currentTime;
 	private bool trialCompleted = false;
 	private bool questionAnswered = false;
 	private List<List<float>> blocks = new List<List<float>> ();
 	[SerializeField]
-	private int currentTrial = 0;
+	private int
+		currentTrial = 0;
 	[SerializeField]
-	private int currentBlock = 0;
+	private int
+		currentBlock = 0;
 	private float blockLength;
 	private CsvFileWriter customCsvWriter;
 	private CsvRow row;
@@ -42,8 +43,8 @@ public class ControlScript : MonoBehaviour
 	{
 		blockLength = conditions.Length * repetitionsPerBlock; 
 		display = GameObject.FindGameObjectWithTag ("Display");
-		anim = GameObject.FindGameObjectWithTag ("GUI").GetComponent<Animator>();
-		question = GameObject.FindGameObjectWithTag ("Text");
+		anim = display.GetComponent<Animator> ();
+		question = GameObject.FindGameObjectWithTag ("QuestionText");
 		question.SetActive (false);
 		stringFormatingTime = GetComponent<MotionLog> ().stringFormatingTime;
 		for (int i = 0; i < nbBlocks; i++) {
@@ -98,7 +99,7 @@ public class ControlScript : MonoBehaviour
 		if (Input.GetKeyUp (KeyCode.P)) {
 			anim.SetTrigger ("Pause");
 		}
-		//********FLLUX IMPLEMENTATION********//
+		//********FLUX IMPLEMENTATION********//
 		if (trialCompleted) {
 			trialCompleted = false;
 			EndTrial ();
@@ -110,8 +111,8 @@ public class ControlScript : MonoBehaviour
 			if (currentTrial < blockLength) {
 				Invoke ("StartNextTrial", 1);
 			} else {
+				currentBlock++;
 				if (currentBlock < nbBlocks) {
-					currentBlock++;
 					pauseBetweenBlocks ();
 				} else {
 					EndExperiment ();
@@ -165,7 +166,6 @@ public class ControlScript : MonoBehaviour
 	public void QuestionAnswered (string s)
 	{
 		display.GetComponent<AnswerManager> ().Destroy ();
-		;
 		Debug.Log ("Question Aswered: " + s);
 		questionAnswered = true;
 		question.SetActive (false);
@@ -177,17 +177,20 @@ public class ControlScript : MonoBehaviour
 	{
 		if (blockRunning)
 			return;
-		if (anim.GetCurrentAnimatorStateInfo(0).IsName("PauseClip"))
-			anim.SetTrigger("FadeOut");
-		blockRunning = true;
-		currentTrial = 0;
-		StartNextTrial ();
+		if (currentBlock < nbBlocks) {
+			if (anim.GetCurrentAnimatorStateInfo (0).IsName ("PauseClip"))
+				anim.SetTrigger ("FadeOut");
+			blockRunning = true;
+			currentTrial = 0;
+			Debug.Log ("Starting block " + currentBlock);
+			StartNextTrial ();
+		}
 	}
 
 	private void EndExperiment ()
 	{
 		customCsvWriter.Close ();
-		anim.SetTrigger("End");
+		anim.SetTrigger ("End");
 	}
 	
 	private void pauseBetweenBlocks ()
@@ -195,7 +198,6 @@ public class ControlScript : MonoBehaviour
 		blockRunning = false;
 		anim.SetTrigger ("Pause");
 	}
-
 
 	private void fillBlocks ()
 	{
