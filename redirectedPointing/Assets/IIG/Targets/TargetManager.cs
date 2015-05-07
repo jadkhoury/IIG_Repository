@@ -16,7 +16,7 @@ public class TargetManager : MonoBehaviour
 	private GameObject activeTarget = null;
 	private int[] order;
 	private GameObject hand;
-	private RedirectSin distortionScript;
+	private RedirectLog distortionScript;
 	private bool waitingToLeaveAR = false;
 	//Tests variable
 	private float nextActionTime = 1.0f;
@@ -31,7 +31,7 @@ public class TargetManager : MonoBehaviour
 		aR = control.actionRange;
 		tR = control.targetRadius;
 		hand = control.triggerObject;
-		distortionScript = hand.GetComponent<RedirectSin> ();
+		distortionScript = hand.GetComponent<RedirectLog> ();
 		order = ComputeOrder ();
 		targetsArray = new GameObject[nbTargets + 1];
 	}

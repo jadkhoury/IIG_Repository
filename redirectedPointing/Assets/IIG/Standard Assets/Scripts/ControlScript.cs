@@ -10,11 +10,10 @@ public class ControlScript : MonoBehaviour
 	public GameObject triggerObject;
 	public Transform defaultTarget;
 	public bool isDistorting;
-	public bool negativeDistortion;
 
 	public float actionRange = 0.125f;
 	public float targetRadius = 0.015f;
-	public float virtualTargetRadius = 0.03f;
+
 	public float circleRadius = 0.125f;
 	public int nbTargets = 12;
 	public int nbBlocks;
@@ -25,7 +24,7 @@ public class ControlScript : MonoBehaviour
 	public float timeBetweenBlocks = 60;
 
 
-
+	public float virtualTargetRadius;
 	[SerializeField]
 	private GameObject display;
 	private float currentTime;
@@ -162,7 +161,7 @@ public class ControlScript : MonoBehaviour
 		//TODO: display something
 		Invoke("StartBlock", timeBetweenBlocks); 
 	}
-
+	
 	private void fillBlocks(){
 		foreach (float param in conditions) {
 			foreach (List<float> block in blocks) {
